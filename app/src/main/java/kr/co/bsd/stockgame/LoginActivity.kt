@@ -1,11 +1,13 @@
 package kr.co.bsd.stockgame
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kr.co.bsd.stockgame.databinding.ActivityLoginBinding
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -58,6 +60,10 @@ class LoginActivity : AppCompatActivity() {
             }
 
 
+        }
+        binding.registerTextButton.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
         }
     }
 }
