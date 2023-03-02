@@ -1,14 +1,15 @@
 package kr.co.bsd.stockgame
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kr.co.bsd.stockgame.databinding.ActivityRegisterBinding
+
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -86,13 +87,35 @@ class RegisterActivity : AppCompatActivity() {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
 
+            val database =
+                Firebase.database("https://stockgame-e7286-default-rtdb.asia-southeast1.firebasedatabase.app")
+            val usersRef = database.getReference("users")
             if (id.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
+                if(isIdTested && isEmailTested && isPasswordTested) {
+                    usersRef.orderByChild("email").equalTo(email).limitToFirst(200).get().addOnSuccessListener {
+                        if(!it.exists()) {
+                            val intent = Intent(this, EmailVerifyActivity::class.java)
+                            intent.putExtra("email", email)
+                            intent.putExtra("id", id)
+                            intent.putExtra("password", password)
+                            intent.putExtra("purpose", "register")
+                            startActivity(intent)
+                        }
+                        else {
+                            Toast.makeText(
+                                baseContext,
+                                "이미 등록된 이메일입니다.",
+                                Toast.LENGTH_LONG
+                            ).show()
 
+                        }
+                    }
+                }
             }
-
         }
     }
     fun isPasswordFormat(password: String): Boolean {
         return password.matches("^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[\$@\$!%*#?&]).{8,15}.\$".toRegex())
     }
+
 }

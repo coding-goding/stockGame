@@ -5,6 +5,7 @@ class User {
     var id : String = ""
     var email : String = ""
     var password : String = ""
+    var money : Int = 0
 
     constructor()
 
