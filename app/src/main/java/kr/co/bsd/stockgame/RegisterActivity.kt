@@ -67,14 +67,14 @@ class RegisterActivity : AppCompatActivity() {
                         Toast.makeText(
                             baseContext,
                             "중복되는 아이디가 있습니다.",
-                            Toast.LENGTH_LONG
+                            Toast.LENGTH_SHORT
                         ).show()
                     }
                     else {
                         Toast.makeText(
                             baseContext,
                             "사용 가능한 아이디입니다.",
-                            Toast.LENGTH_LONG
+                            Toast.LENGTH_SHORT
                         ).show()
                         isIdTested = true
                         binding.checkId.setImageResource(R.drawable.circle)
@@ -94,6 +94,7 @@ class RegisterActivity : AppCompatActivity() {
                 if(isIdTested && isEmailTested && isPasswordTested) {
                     usersRef.orderByChild("email").equalTo(email).limitToFirst(200).get().addOnSuccessListener {
                         if(!it.exists()) {
+                            Log.d("retest", it.toString())
                             val intent = Intent(this, EmailVerifyActivity::class.java)
                             intent.putExtra("email", email)
                             intent.putExtra("id", id)
@@ -105,7 +106,7 @@ class RegisterActivity : AppCompatActivity() {
                             Toast.makeText(
                                 baseContext,
                                 "이미 등록된 이메일입니다.",
-                                Toast.LENGTH_LONG
+                                Toast.LENGTH_SHORT
                             ).show()
 
                         }

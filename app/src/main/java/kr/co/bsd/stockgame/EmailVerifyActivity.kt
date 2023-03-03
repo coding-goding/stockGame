@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,27 +26,39 @@ class EmailVerifyActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val email = intent.getStringExtra("email")
-        val id = intent.getStringExtra("id")
-        val password = intent.getStringExtra("password")
         val purpose = intent.getStringExtra("purpose")
 
         val code = email?.let { sendEmail(it) }
 
-        binding.emailText.setText(email)
+        binding.emailText.text = email
 
         binding.verifyButton.setOnClickListener {
             if(binding.verifyEditText.text.toString() == code) {
                 Toast.makeText(
                     baseContext,
                     "인증 성공!",
-                    Toast.LENGTH_LONG
+                    Toast.LENGTH_SHORT
                 ).show()
 
                 if(purpose == "register") {
+                    val id = intent.getStringExtra("id")
+                    val password = intent.getStringExtra("password")
                     val intent = Intent(this, RegisterFinishActivity::class.java)
                     intent.putExtra("email", email)
                     intent.putExtra("id", id)
                     intent.putExtra("password", password)
+                    startActivity(intent)
+                    finish()
+                }
+                else if(purpose == "findId") {
+                    val intent = Intent(this, IdFindActivity::class.java)
+                    intent.putExtra("email", email)
+                    startActivity(intent)
+                    finish()
+                }
+                else if(purpose == "findPassword") {
+                    val intent = Intent(this, PasswordFindActivity::class.java)
+                    intent.putExtra("email", email)
                     startActivity(intent)
                     finish()
                 }
@@ -57,7 +68,7 @@ class EmailVerifyActivity : AppCompatActivity() {
                 Toast.makeText(
                     baseContext,
                     "인증 코드가 다릅니다.",
-                    Toast.LENGTH_LONG
+                    Toast.LENGTH_SHORT
                 ).show()
             }
         }

@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
                     if (it.exists()) {
                         it.getValue(User::class.java)?.let { user ->
                             if (user.password == password) {
-                                Toast.makeText(baseContext, "환영합니다, " + user.nickname + "님.", Toast.LENGTH_LONG)
+                                Toast.makeText(baseContext, "환영합니다, " + user.nickname + "님.", Toast.LENGTH_SHORT)
                                     .show()
                                 //login success
                             }
@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
                                 Toast.makeText(
                                     baseContext,
                                     "입력된 정보가 계정 정보와 일치하지 않습니다.",
-                                    Toast.LENGTH_LONG
+                                    Toast.LENGTH_SHORT
                                 ).show()
                             }
                         }
@@ -50,19 +50,23 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(
                             baseContext,
                             "입력된 정보가 계정 정보와 일치하지 않습니다.",
-                            Toast.LENGTH_LONG
+                            Toast.LENGTH_SHORT
                         ).show()
                     }
                 }
             }
             else {
-                Toast.makeText(baseContext, "모든 정보가 입력되지 않았습니다.", Toast.LENGTH_LONG).show()
+                Toast.makeText(baseContext, "모든 정보가 입력되지 않았습니다.", Toast.LENGTH_SHORT).show()
             }
 
 
         }
         binding.registerTextButton.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+        binding.passwordTextButton.setOnClickListener {
+            val intent = Intent(this,FindAccountActivity::class.java)
             startActivity(intent)
         }
     }
