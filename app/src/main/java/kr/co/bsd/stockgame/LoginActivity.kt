@@ -35,7 +35,10 @@ class LoginActivity : AppCompatActivity() {
                             if (user.password == password) {
                                 Toast.makeText(baseContext, "환영합니다, " + user.nickname + "님.", Toast.LENGTH_SHORT)
                                     .show()
-                                //login success
+                                val intent = Intent(this, MainActivity::class.java)
+                                startActivity(intent)
+                                intent.putExtra("id", user.id)
+                                finish()
                             }
                             else {
                                 Toast.makeText(
