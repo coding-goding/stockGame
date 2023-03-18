@@ -36,8 +36,8 @@ class LoginActivity : AppCompatActivity() {
                                 Toast.makeText(baseContext, "환영합니다, " + user.nickname + "님.", Toast.LENGTH_SHORT)
                                     .show()
                                 val intent = Intent(this, MainActivity::class.java)
-                                startActivity(intent)
                                 intent.putExtra("id", user.id)
+                                startActivity(intent)
                                 finish()
                             }
                             else {
